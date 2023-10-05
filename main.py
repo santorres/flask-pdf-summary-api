@@ -6,6 +6,7 @@ import glob2
 import textwrap
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+import json
 
 # Function to open a file and read its content
 def open_file(filepath):
@@ -14,7 +15,7 @@ def open_file(filepath):
             return infile.read()
     except Exception as e:
         print(f"An error occurred while opening the file '{filepath}': {str(e)}")
-        return None  # Return None if an error occurs
+        return None
 
 # Function to save content to a file
 def save_file(filepath, content):
@@ -23,8 +24,8 @@ def save_file(filepath, content):
             outfile.write(content)
     except Exception as e:
         print(f"An error occurred while saving the file '{filepath}': {str(e)}")
-        return False  # Return False if an error occurs
-    return True  # Return True if the file was saved successfully
+        return False
+    return True
 
 # Function to convert PDFs to text
 def convert_pdf2txt(src_dir, dest_dir):
@@ -32,13 +33,13 @@ def convert_pdf2txt(src_dir, dest_dir):
     files = [i for i in files if '.pdf' in i]
     for file in files:
         try:
-            with pdfplumber.open(src_dir+file) as pdf:
+            with pdfplumber.open(src_dir + file) as pdf:
                 output = ''
                 for page in pdf.pages:
                     output += page.extract_text()
                     output += '\n\nNEW PAGE\n\n'
-                    print('Destination directory File Path:', dest_dir+file.replace('.pdf','.txt'))
-                save_file(dest_dir+file.replace('.pdf','.txt'), output.strip())
+                    print('Destination directory File Path:', dest_dir + file.replace('.pdf', '.txt'))
+                save_file(dest_dir + file.replace('.pdf', '.txt'), output.strip())
         except Exception as oops:
             print("An error occurred:", oops, file)
 
@@ -67,12 +68,12 @@ app = Flask(__name__)
 # Initialize rate limiting with flask-limiter
 limiter = Limiter(
     app,
-    default_limits=["3 per minute"],  # Adjust the rate limit as needed
+    default_limits=["3 per minute"],
 )
 
 # Define a route for the endpoint with rate limiting
 @app.route('/pdfsummary', methods=['POST'])
-@limiter.limit("3 per minute")  # Adjust the rate limit as needed
+@limiter.limit("3 per minute")
 def pdfsummary():
     try:
         # Load the OpenAI API key
@@ -84,53 +85,85 @@ def pdfsummary():
         pdf_files = request.files.getlist('pdfs')
         print("PDF files:", pdf_files)
 
-        # Save the PDF files to a directory
-        pdf_dir = 'PDFs/'
+        # Create a directory to save the results
+        results_dir = 'RESULTS'
+        os.makedirs(results_dir, exist_ok=True)
+
+        # Initialize an empty list to store the results for each PDF
+        pdf_results = []
+
+        # Process each PDF separately
         for pdf_file in pdf_files:
-            with open(os.path.join(pdf_dir, pdf_file.filename), 'wb') as f:
-                f.write(pdf_file.read())
+            pdf_filename = pdf_file.filename
+            pdf_name_without_extension = os.path.splitext(pdf_filename)[0]
+            txt_filepath = os.path.join('textPDFs', pdf_filename.replace('.pdf', '.txt'))
 
-        # Convert PDFs to text
-        convert_pdf2txt('PDFs/', 'textPDFs/')
+            # Save the PDF file to a directory
+            pdf_dir = 'PDFs'
+            os.makedirs(pdf_dir, exist_ok=True)
+            pdf_path = os.path.join(pdf_dir, pdf_filename)
+            pdf_file.save(pdf_path)
 
-        # Get a list of all text files in the specified folder
-        pathfolder = 'textPDFs/'
-        files = glob2.glob(pathfolder + '*.txt')
-        print("Text files:", files)
+            # Convert the PDF to text
+            convert_pdf2txt(pdf_dir + '/', 'textPDFs/')
 
-        # Initialize an empty string to store the contents of all the text files
-        alltext = ""
+            # Read the text file
+            with open(txt_filepath, 'r', encoding='utf-8') as infile:
+                alltext = infile.read()
 
-        # After converting PDFs to text and reading the text files
-        for file in files:
-            with open(file, 'r', encoding='utf-8') as infile:
-                alltext += infile.read()
+            # Split the contents into chunks
+            chunks = textwrap.wrap(alltext, 4000)
 
-        # Split the contents into chunks
-        chunks = textwrap.wrap(alltext, 4000)
+            # Initialize lists to store the results for each chunk
+            chunk_summaries = []
+            chunk_notes = []
+            chunk_notes_summaries = []
+            chunk_essential_info = []
 
-        # Before calling the GPT-3 model for summarization
-        result = []
+            # Process each chunk
+            for chunk in chunks:
+                # Generate summary for the chunk
+                prompt = open_file('pdfprompt.txt').replace('<<SUMMARY>>', chunk)
+                prompt = prompt.encode(encoding='ASCII', errors='ignore').decode()
+                summary = gpt_3(prompt)
+                chunk_summaries.append(summary)
 
-        # Batch processing: Process chunks in batches
-        batch_size = 5  # You can adjust the batch size as needed
-        for i in range(0, len(chunks), batch_size):
-            batch = chunks[i:i + batch_size]
-            batch_prompt = '\n'.join([open_file('pdfprompt.txt').replace('<<SUMMARY>>', chunk) for chunk in batch])
-            batch_prompt = batch_prompt.encode(encoding='ASCII', errors='ignore').decode()
+                # Generate notes for the chunk
+                notes_prompt = open_file('pdfprompt2.txt').replace('<<NOTES>>', chunk)
+                notes = gpt_3(notes_prompt)
+                chunk_notes.append(notes)
 
-            batch_summary = gpt_3(batch_prompt)
-            result.extend(batch_summary.split('\n'))  # Split by line to get individual summaries
+                # Generate notes summary for the chunk
+                notes_summary_prompt = open_file('pdfprompt3.txt').replace('<<NOTES>>', chunk)
+                notes_summary = gpt_3(notes_summary_prompt)
+                chunk_notes_summaries.append(notes_summary)
 
-            # Print the summaries generated by the GPT-3 model
-            for summary in batch_summary.split('\n'):
-                print("Generated summary:", summary)
+                # Generate essential information for the chunk
+                essential_prompt = open_file('pdfprompt4.txt').replace('<<NOTES>>', notes_summary)
+                essential_info = gpt_3(essential_prompt)
+                chunk_essential_info.append(essential_info)
 
-        summary_content = '\n\n'.join(result)
+            # Create a dictionary for the result of this PDF
+            pdf_result = {
+                'filename': pdf_filename,
+                'summaries': chunk_summaries,
+                'notes': chunk_notes,
+                'notes_summaries': chunk_notes_summaries,
+                'essential_info': chunk_essential_info
+            }
 
-        # ... (Remaining code)
+            # Append the result to the list of PDF results
+            pdf_results.append(pdf_result)
 
-        return jsonify(result), 200
+        # Save separate JSON result files for each PDF
+        for pdf_result in pdf_results:
+            pdf_filename = pdf_result['filename']
+            result_filename = os.path.join(results_dir, f'results_{pdf_filename}.json')
+            with open(result_filename, 'w', encoding='utf-8') as json_file:
+                json.dump(pdf_result, json_file, ensure_ascii=False, indent=4)
+
+        # Return the results as a JSON response
+        return jsonify(pdf_results), 200
     except Exception as e:
         print("An error occurred:", str(e))
         return jsonify({"error": str(e)}), 500
@@ -138,3 +171,4 @@ def pdfsummary():
 # Run the Flask application
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
+    

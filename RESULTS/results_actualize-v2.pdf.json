@@ -1,0 +1,8 @@
+{
+    "filename": "actualize.pdf",
+    "summaries": [
+        "Actualize is an educational program that teaches software engineering. Their curriculum focuses on teaching coding through clear explanations, analogies, and exercises. They prioritize teachability over trendy technologies, aiming to prepare students to learn any new technical topic on their own. The curriculum covers various topics including programming languages (specifically Ruby), version control (Git and GitHub), back-end development (Rails), database design (Postgres, SQL), front-end development (HTML, CSS, JavaScript, React.js), and computer science (data structures, algorithms). The use of Ruby as the programming language allows for an easier learning curve, while Git and GitHub are used for version control. Rails is taught for back-end web development, and the curriculum prepares students for self-learning and future adaptability in the field.",
+        "Ruby on Rails is recommended as the first framework for students to learn because it is written in a beginner-friendly programming language and has influenced many other web frameworks. The curriculum also covers API development, database design with Postgres and SQL, and front-end development with HTML, CSS, JavaScript, and ReactJS.",
+        "React.js is a popular JavaScript framework used for creating dynamic web applications and mobile/desktop apps. Actualize offers a curriculum that covers data structures, algorithms, and the important skill of learning how to learn."
+    ]
+}

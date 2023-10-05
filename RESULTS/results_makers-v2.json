@@ -1,0 +1,50 @@
+[
+    {
+        "summary": "The bootcamp curriculum is divided into two phases: Foundations (8 weeks) and Specialist (8 weeks). The curriculum covers areas such as software development, cloud engineering, quality engineering, and data engineering. The timings may vary for individual learners, but the overall immersive time remains the same. The bootcamp can be attended remotely or in a hybrid working style, with some weeks requiring in-person attendance. The curriculum includes modules on modern software engineering foundations, engineering practices, database-backed web applications, and cloud deployment.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "The document discusses various networking concepts and the use of continuous integration and continuous deployment (CI-CD) in software development teams. It also describes a week-long project where learners work together in teams to build an application using agile processes. After this, learners progress to specialized tracks in software development, cloud engineering, quality engineering, or data engineering. The document then outlines the curriculum for the software development phase, including learning JavaScript and building web applications. Finally, it mentions a project where learners operate as an agile team to develop a project using a new language and stack. The curriculum also includes modules on mobile applications.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "In this curriculum phase, learners will focus on cloud engineering. They will start by containerizing and deploying an application to AWS, followed by exploring CI/CD and serverless architecture. They will then deploy a full-stack application to AWS, using infrastructure as code tools. Learners will also learn about orchestration using Kubernetes and how to secure cloud applications. The phase concludes with a two-week project focused on debugging and resolving reliability issues in a live application. Throughout the phase, learners will have access to workshops and coaching support.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "The document outlines a curriculum for two modules: Quality Engineering and Data Engineering. The Quality Engineering module focuses on learning Java programming skills, testing methods, and automation. The Data Engineering module focuses on data analysis using Python and SQL. The curriculum includes workshops, exercises, and projects to enhance learning. Coaches are available to provide support throughout the modules. The document also mentions a graduation celebration.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "This document outlines the curriculum for a data engineering module. It includes topics such as extracting and loading data into an analytical database, batch processing, data warehousing, stream processing, and a final project. The module also includes structured challenges, ad-hoc sessions, and coach availability for support. Overall, the module aims to provide learners with hands-on experience in data engineering and the ability to apply their skills to real-world challenges.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "The Actualize curriculum focuses on teaching software engineering through a comprehensive and educational approach. The curriculum covers various topics including programming languages (specifically Ruby), version control (Git and Github), back-end development (Rails), database design (Postgres, SQL), front-end development (HTML, CSS, JavaScript, React.js), and computer science (data structures, algorithms). The emphasis is on teaching fundamental concepts and providing students with the ability to learn new technologies on their own. Ruby is taught extensively, including topics such as variables, code flow, methods, conditionals, loops, arrays, hashes, and functions. Object-oriented programming (OOP) is also covered using Ruby. The importance of version control using Git and Github is emphasized, as it allows for code management and collaboration. Back-end web development using Ruby on Rails is a major focus of the curriculum, highlighting its power and productivity.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "Ruby on Rails is recommended as the first framework for students to learn because it is written in the beginner-friendly Ruby programming language and has influenced many other web frameworks. The curriculum also covers API development, database design with Postgres and SQL, and front-end development using HTML, CSS, JavaScript, and ReactJS. JavaScript is emphasized as the key language for front-end development, and ReactJS is introduced as a popular front-end framework.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    },
+    {
+        "summary": "This document discusses the popularity and versatility of React.js, a JavaScript framework used for creating single page applications and mobile/desktop applications. It also mentions Actualize's curriculum, which includes in-depth coverage of data structures, algorithms, and the importance of learning how to learn. Contact information for Actualize is provided for further inquiries.",
+        "notes": null,
+        "notes_summary": null,
+        "essential_info": null
+    }
+]
