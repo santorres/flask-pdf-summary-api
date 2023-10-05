@@ -1,4 +1,4 @@
-openaiapikey.txt
+openai_key.txt
 /PDFs/*.pdf
 /textPDFs/*.txt
 .env
