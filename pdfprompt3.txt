@@ -1,5 +1,10 @@
-Write a step by step guide from the information in the following text:
+Based on the following bootcamp curriculum please analyse and extract all relevant information for prospective students.  We're after information such as: 
+ Duration of the program
+ Programming Languages taught
+ Skills the program focus on
+
+Please use separate sections for your response: 
+ Durations, Languages and Skills taught (use bullet points) and Summary of the overall program
+
 
 <<NOTES>>
-
-WRITE A STEP BY STEP GUIDE FROM THE INFORMATION IN THE TEXT ABOVE:

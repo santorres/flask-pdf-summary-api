@@ -65,7 +65,6 @@ def gpt_3(prompt):
 # Create a Flask application instance
 app = Flask(__name__)
 
-
 # Initialize rate limiting with flask-limiter
 limiter = Limiter(
     app,
@@ -112,59 +111,15 @@ def pdfsummary():
             with open(txt_filepath, 'r', encoding='utf-8') as infile:
                 alltext = infile.read()
 
-            # Split the contents into chunks
-            chunks = textwrap.wrap(alltext, 4000)
-
-            # Initialize lists to store the results for each chunk
-            chunk_analysis = []
-            chunk_notes = []
-            chunk_notes_summaries = []
-            chunk_essential_info = []
-            programming_languages = []
-            bootcamp_durations = []
-
-            # Process each chunk
-            for chunk in chunks:
-                # Generate analysis for the chunk
-                prompt = open_file('pdfprompt.txt').replace('<<ANALYSIS>>', chunk)
-                prompt = prompt.encode(encoding='ASCII', errors='ignore').decode()
-                analysis = gpt_3(prompt)
-                chunk_analysis.append(analysis)
-
-                # # Generate notes for the chunk
-                # notes_prompt = open_file('pdfprompt2.txt').replace('<<NOTES>>', chunk)
-                # notes = gpt_3(notes_prompt)
-                # chunk_notes.append(notes)
-
-                # # Generate notes summary for the chunk
-                # notes_summary_prompt = open_file('pdfprompt3.txt').replace('<<NOTES>>', chunk)
-                # notes_summary = gpt_3(notes_summary_prompt)
-                # chunk_notes_summaries.append(notes_summary)
-
-                # # Generate essential information for the chunk
-                # essential_prompt = open_file('pdfprompt4.txt').replace('<<NOTES>>', notes_summary)
-                # essential_info = gpt_3(essential_prompt)
-                # chunk_essential_info.append(essential_info)
-
-                # # Extract programming languages
-                # programming_prompt = open_file('programming_prompt.txt').replace('<<CONTENT>>', chunk)
-                # programming_result = gpt_3(programming_prompt)
-                # programming_languages.append(programming_result)
-
-                # # Extract bootcamp duration
-                # duration_prompt = open_file('duration_prompt.txt').replace('<<CONTENT>>', chunk)
-                # duration_result = gpt_3(duration_prompt)
-                # bootcamp_durations.append(duration_result)
+            # Generate analysis for the entire document
+            prompt = open_file('pdfprompt.txt').replace('<<ANALYSIS>>', alltext)
+            prompt = prompt.encode(encoding='ASCII', errors='ignore').decode()
+            analysis = gpt_3(prompt)
 
             # Create a dictionary for the result of this PDF
             pdf_result = {
                 'filename': pdf_filename,
-                'summaries': chunk_analysis,
-               # 'notes': chunk_notes,
-               # 'notes_summaries': chunk_notes_summaries,
-               # 'essential_info': chunk_essential_info,
-                # 'programming_languages': programming_languages,
-                # 'bootcamp_durations': bootcamp_durations,
+                'summary': analysis,
             }
 
             # Append the result to the list of PDF results

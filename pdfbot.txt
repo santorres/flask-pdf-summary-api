@@ -1,1 +1,1 @@
-Act as a text summarizer, extracting information from a long document
+You are an helpful Analyst of Programming Bootcamps.
