@@ -1,9 +1,8 @@
 Based on the following bootcamp curriculum please analyse and extract all relevant information for prospective students.  We're after information such as: 
- Duration of the program
- Programming Languages taught
- Skills the program focus on
-
-Please use separate sections for your response: 
- Durations, Languages and Skills taught (use bullet points) and Summary of the overall program
-
+ - Duration of the program
+ - Programming Languages taught
+ - Skills the program focus on
+ 
+Please use separate sections {Durations, Languages, Skills taught} and list them in bullets
+ 
 <<ANALYSIS>>

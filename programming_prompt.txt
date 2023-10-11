@@ -1,3 +1,4 @@
-Please extract all the programming langugages in bullets
+Please extract all the programming languages and list them in bullet points. 
+
 
 <<CONTENT>>
