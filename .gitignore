@@ -3,3 +3,4 @@ openai_key.txt
 /textPDFs/*.txt
 .env
 ```
+.DS_Store

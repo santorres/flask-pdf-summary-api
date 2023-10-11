@@ -5,7 +5,7 @@ import openai
 import glob2
 import textwrap
 from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+#from flask_limiter.util import get_remote_address
 import json
 
 # Function to open a file and read its content
@@ -117,11 +117,11 @@ def pdfsummary():
 
             # Initialize lists to store the results for each chunk
             chunk_analysis = []
-            chunk_notes = []
-            chunk_notes_summaries = []
-            chunk_essential_info = []
-            programming_languages = []
-            bootcamp_durations = []
+            #chunk_notes = []
+            #chunk_notes_summaries = []
+            #chunk_essential_info = []
+            #programming_languages = []
+            #bootcamp_durations = []
 
             # Process each chunk
             for chunk in chunks:
