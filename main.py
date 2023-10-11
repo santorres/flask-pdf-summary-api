@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import pdfplumber
 import openai
-import glob2
+#import glob2
 import textwrap
 from flask_limiter import Limiter
 #from flask_limiter.util import get_remote_address
